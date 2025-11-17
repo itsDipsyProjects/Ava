@@ -1,4 +1,5 @@
 import { Application, Assets, Sprite } from "pixi.js";
+import {Input} from "../inputSys/InputSystem.js"
 
 
 async function main(){
@@ -8,19 +9,36 @@ async function main(){
   document.getElementById("pixi-container").appendChild(app.canvas);
 
   const texture = await Assets.load("/assets/bunny.png");
-  const bunny = new Sprite(texture);
+  const player = new Sprite(texture);
 
-  bunny.anchor.set(0.5);
-  bunny.position.set(app.screen.width / 2, app.screen.height / 2);
-  app.stage.addChild(bunny);
+  player.anchor.set(0.5);
+  player.position.set(app.screen.width / 2, app.screen.height / 2);
+  app.stage.addChild(player);
+
+  let input = new Input()
+  
+
 
   
 
 
-  //Game Loop where all the logic runs
   app.ticker.add((time) => {
+    const speed = 7;
+    const dt = time.deltaTime; // Pixi v7 gives deltaTime nicely
 
-  });
+    if (input.is_key_pressed("W")) {
+        player.y -= speed * dt;
+    }
+    if (input.is_key_pressed("S")) {
+        player.y += speed * dt;
+    }
+    if (input.is_key_pressed("D")) {
+        player.x += speed * dt;
+    }
+    if (input.is_key_pressed("A")) {
+        player.x -= speed * dt;
+    }
+});
 }
 
 
